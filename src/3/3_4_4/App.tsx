@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 export default function Gallery() {
   const [index, setIndex] = useState(0);
+  const [isLoading, setIsloading] = useState(false)
   const hasNext = index < images.length - 1;
 
   function handleClick() {
@@ -15,6 +16,7 @@ export default function Gallery() {
     } else {
       setIndex(0);
     }
+    setIsloading(true)
   }
 
   let image = images[index];
@@ -26,7 +28,12 @@ export default function Gallery() {
       <h3>
         Image {index + 1} of {images.length}
       </h3>
-      <img src={image.src} />
+      {isLoading && <p>Loading</p>} {}
+      <img
+        src={image.src}
+        onLoad={() => setIsloading(false)}
+        style={{display: isLoading ? 'none' : 'block'}}
+      />
       <p>
         {image.place}
       </p>

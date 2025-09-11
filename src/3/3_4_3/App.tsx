@@ -10,17 +10,9 @@ import ContactList from './ContactList';
 import EditContact from './EditContact';
 
 export default function ContactManager() {
-  const [
-    contacts,
-    setContacts
-  ] = useState(initialContacts);
-  const [
-    selectedId,
-    setSelectedId
-  ] = useState(0);
-  const selectedContact = contacts.find(c =>
-    c.id === selectedId
-  )!!;
+  const [contacts, setContacts] = useState(initialContacts);
+  const [selectedId, setSelectedId] = useState(0);
+  const selectedContact = contacts.find(c => c.id === selectedId)!!;
 
   function handleSave(updatedData: Contact) {
     const nextContacts = contacts.map(c => {
@@ -42,6 +34,7 @@ export default function ContactManager() {
       />
       <hr />
       <EditContact
+        key={selectedContact.id}
         initialData={selectedContact}
         onSave={handleSave}
       />

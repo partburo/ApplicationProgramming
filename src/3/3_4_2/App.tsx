@@ -9,6 +9,10 @@ import { useState } from 'react';
 
 export default function App() {
   const [reverse, setReverse] = useState(false);
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  //const [text, setText] = useState('');
+
   let checkbox = (
     <label>
       <input
@@ -19,35 +23,42 @@ export default function App() {
       Reverse order
     </label>
   );
-  if (reverse) {
-    return (
-      <>
-        <Field label="Last name" /> 
-        <Field label="First name" />
-        {checkbox}
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Field label="First name" /> 
-        <Field label="Last name" />
-        {checkbox}
-      </>
-    );    
-  }
+
+  return (
+    <>
+      {reverse ? (  
+        <>
+          <Field label="Last name" text={lastName} onChange={setLastName} /> 
+          <Field label="First name" text={firstName} onChange={setFirstName} />
+        </>
+      ) : (
+        <>
+          <Field label="First name" text={firstName} onChange={setFirstName} />
+          <Field label="Last name" text={lastName} onChange={setLastName} />
+        </>
+      )}
+      {checkbox}
+    </>
+  );    
 }
 
-function Field({ label }: { label: string }) {
-  const [text, setText] = useState('');
-  return (
+function Field({
+    label,
+    text,
+    onChange
+  }: {
+    label: string,
+    text: string,
+    onChange: (value: string) => void
+  }) {
+    return (
     <label>
       {label}:{' '}
       <input
         type="text"
         value={text}
         placeholder={label}
-        onChange={e => setText(e.target.value)}
+        onChange={e => onChange(e.target.value)}
       />
     </label>
   );

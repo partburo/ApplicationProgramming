@@ -7,29 +7,30 @@ import { useState } from 'react';
 
 export default function App() {
   const [showHint, setShowHint] = useState(false);
-  if (showHint) {
-    return (
-      <div>
-        <p><i>Hint: Your favorite city?</i></p>
-        <Form />
-        <button onClick={() => {
-          setShowHint(false);
-        }}>Hide hint</button>
-      </div>
-    );
-  }
+  const [text, setText] = useState('');
+  
   return (
     <div>
-      <Form />
+      {showHint && (
+        <p><i>Hint: Your favorite city?</i></p>
+      )}
+      <Form text={text} setText={setText}/>
       <button onClick={() => {
-        setShowHint(true);
-      }}>Show hint</button>
+        setShowHint(!showHint);
+      }}>
+        {showHint ? 'Hide hint' : 'Show hint'}
+      </button>
     </div>
-  );
+  )
 }
 
-function Form() {
-  const [text, setText] = useState('');
+function Form({
+  text,
+  setText
+}: {
+  text: string,
+  setText: (text: string) => void
+}) {
   return (
     <textarea
       value={text}
@@ -37,4 +38,3 @@ function Form() {
     />
   );
 }
-

@@ -11,5 +11,7 @@
 export default function EditProfile() {
     return (
         <div></div>
+
+        // Смотри ./index/3_1_3/index.js
     );
 }

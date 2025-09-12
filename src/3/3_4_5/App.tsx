@@ -10,11 +10,21 @@ import Contact from './Contact';
 
 export default function ContactList() {
   const [reverse, setReverse] = useState(false);
+  const [showEmailPos, setShowEmailPos] = useState<Record<number, boolean>>({})
 
-  const displayedContacts = [...contacts];
-  if (reverse) {
-    displayedContacts.reverse();
+  let handleToggleEmail = (id: number) => {
+    setShowEmailPos(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }))
   }
+
+  const displayedContacts = reverse ? [...contacts].reverse() : contacts
+
+  // const displayedContacts = [...contacts];
+  // if (reverse) {
+  //   displayedContacts.reverse();
+  // }
 
   return (
     <>
@@ -31,7 +41,11 @@ export default function ContactList() {
       <ul>
         {displayedContacts.map((contact, i) =>
           <li key={i}>
-            <Contact contact={contact} />
+            <Contact
+              contact={contact} 
+              isExpanded={!!showEmailPos[contact.id]}
+              onToggleEmail={() => handleToggleEmail(contact.id)}
+            />
           </li>
         )}
       </ul>

@@ -11,20 +11,28 @@ export default function Chat(
         dispatch: (action: Action) => void
     }
 ) {
+  let handleSendMessage = () => {
+    alert(`Message to: ${contact.email}\nText: ${message}`)
+    dispatch({
+      type: 'edited_message',
+      message: ''
+    })
+  }
+
   return (
     <section className="chat">
       <textarea
         value={message}
         placeholder={'Chat to ' + contact.name}
-        onChange={(e) => {
-            dispatch({
-                type: 'edited_message',
-                message: e.target.value,
-              });
-        }}
+        onChange={
+          (e) => dispatch({
+            type: 'edited_message',
+            message: e.target.value,
+          })
+        }
       />
       <br />
-      <button>Send to {contact.email}</button>
+      <button onClick={handleSendMessage}>Send to {contact.email}</button>
     </section>
   );
 }

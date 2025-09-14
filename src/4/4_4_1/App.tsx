@@ -11,25 +11,31 @@ import { initialTodos, createTodo, Todo } from './todos';
 export default function TodoList() {
   const [todos, setTodos] = useState(initialTodos);
   const [showActive, setShowActive] = useState(false);
-  const [activeTodos, setActiveTodos] = useState<Todo[]>([]);
-  const [visibleTodos, setVisibleTodos] = useState<Todo[]>([]);
-  const [footer, setFooter] = useState<JSX.Element>(<></>);
+  //const [activeTodos, setActiveTodos] = useState<Todo[]>([]);
+  // const [visibleTodos, setVisibleTodos] = useState<Todo[]>([]);
+  //const [footer, setFooter] = useState<JSX.Element>(<></>);
 
-  useEffect(() => {
-    setActiveTodos(todos.filter(todo => !todo.completed));
-  }, [todos]);
+  const visibleTodos = showActive
+    ? todos.filter(todo => !todo.completed)
+    : todos
 
-  useEffect(() => {
-    setVisibleTodos(showActive ? activeTodos : todos);
-  }, [showActive, todos, activeTodos]);
+  const activeCount = todos.filter(todo => !todo.completed).length
 
-  useEffect(() => {
-    setFooter(
-      <footer>
-        {activeTodos.length} todos left
-      </footer>
-    );
-  }, [activeTodos]);
+  // useEffect(() => {
+  //   setActiveTodos(todos.filter(todo => !todo.completed));
+  // }, [todos]);
+
+  // useEffect(() => {
+  //   setVisibleTodos(showActive ? activeTodos : todos);
+  // }, [showActive, todos, activeTodos]);
+
+  // useEffect(() => {
+  //   setFooter(
+  //     <footer>
+  //       {activeTodos.length} todos left
+  //     </footer>
+  //   );
+  // }, [activeTodos]);
 
   return (
     <>
@@ -49,7 +55,7 @@ export default function TodoList() {
           </li>
         ))}
       </ul>
-      {footer}
+      <footer>{activeCount} todos left</footer>
     </>
   );
 }
@@ -58,8 +64,8 @@ function NewTodo({ onAdd }: { onAdd: (todo: Todo) => void }) {
   const [text, setText] = useState('');
 
   function handleAddClick() {
-    setText('');
     onAdd(createTodo(text));
+    setText('');
   }
 
   return (

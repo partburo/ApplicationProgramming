@@ -13,11 +13,12 @@ export default function App() {
 
   useEffect(() => {
     function handleMove(e) {
-      setPosition({ x: e.clientX, y: e.clientY });
+      if (canMove)
+        setPosition({ x: e.clientX, y: e.clientY });
     }
     window.addEventListener('pointermove', handleMove);
     return () => window.removeEventListener('pointermove', handleMove);
-  }, []);
+  }, [canMove]);
 
   return (
     <>

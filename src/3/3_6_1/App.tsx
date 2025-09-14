@@ -7,15 +7,16 @@
   Вы можете объявить контекст в файле Context.js.
 */
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { places, PlaceType } from './data';
 import { getImageUrl } from './utils';
+import { Context } from './Context';
 
 export default function App() {
   const [isLarge, setIsLarge] = useState(false);
   const imageSize = isLarge ? 150 : 100;
   return (
-    <>
+    <Context.Provider value={imageSize}>
       <label>
         <input
           type="checkbox"
@@ -27,17 +28,16 @@ export default function App() {
         Use large images
       </label>
       <hr />
-      <List imageSize={imageSize} />
-    </>
+      <List />
+    </Context.Provider>
   )
 }
 
-function List({ imageSize }: { imageSize: number }) {
+function List() {
   const listItems = places.map(place =>
     <li key={place.id}>
       <Place
         place={place}
-        imageSize={imageSize}
       />
     </li>
   );
@@ -45,14 +45,13 @@ function List({ imageSize }: { imageSize: number }) {
 }
 
 function Place(
-  { place, imageSize }: 
-  { place: PlaceType, imageSize: number }
+  { place }: 
+  { place: PlaceType }
 ) {
   return (
     <>
       <PlaceImage
         place={place}
-        imageSize={imageSize}
       />
       <p>
         <b>{place.name}</b>
@@ -63,9 +62,11 @@ function Place(
 }
 
 function PlaceImage(
-  { place, imageSize }:
-    { place: PlaceType, imageSize: number }
-) {
+  { place }:
+  { place: PlaceType }
+ ) {
+  let imageSize = useContext(Context)
+
   return (
     <img
       src={getImageUrl(place)}

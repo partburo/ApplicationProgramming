@@ -15,10 +15,15 @@ export default function Page() {
   const [bio, setBio] = useState<string | null> (null);
 
   useEffect(() => {
+    let cancel = false
     setBio(null);
     fetchBio(person).then(result => {
-      setBio(result);
+      if(!cancel)
+        setBio(result);
     });
+    return () => {
+      cancel = true
+    }
   }, [person]);
 
   return (

@@ -18,7 +18,7 @@ export default function Timer() {
             console.log('❌ Clearing an interval');
             clearInterval(id);
         };
-    }, [count]);
+    }, []);
 
     return <h1>Counter: {count}</h1>;
 }

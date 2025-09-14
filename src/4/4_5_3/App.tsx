@@ -21,7 +21,7 @@ export default function App() {
     window.addEventListener('pointermove', handleMove);
     return () => window.removeEventListener('pointermove', handleMove);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [canMove]);
 
   return (
     <>

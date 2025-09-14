@@ -8,7 +8,9 @@ export default function Counter() {
       setCount(c => c + 1);
     }
 
-    setInterval(onTick, 1000);
+    let intervalId = setInterval(onTick, 1000)
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return <h1>{count}</h1>;

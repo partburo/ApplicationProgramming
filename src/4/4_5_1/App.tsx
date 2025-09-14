@@ -17,7 +17,7 @@ function ChatRoom({ roomId }: { roomId: string }) {
     const connection = createConnection(serverUrl, roomId);
     connection.connect();
     return () => connection.disconnect();
-  });
+  }, [roomId]);
 
   return (
     <>

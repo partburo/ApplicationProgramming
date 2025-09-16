@@ -9,13 +9,36 @@
   После реализации useDelayedValue, вы должны увидеть, как точки движутся друг за другом.
 */
 
+import { useEffect, useRef, useState } from 'react';
 import { usePointerPosition } from './usePointerPosition.ts';
 
 type Position = { x: number, y: number };
 
 function useDelayedValue(value: Position, delay: number) {
   // TODO: Implement this Hook
-  return value;
+  const [delayedValue, setDelayedValue] = useState<Position>(value)
+  const queue = useRef<{ value: Position; timeStamp: number }[]>([])
+
+  useEffect(() => {
+    let dateNow = Date.now()
+    queue.current.push({ value, timeStamp: dateNow })
+
+    let interval = setInterval(() => {
+      while (
+        queue.current. length &&
+        dateNow - queue.current[0].timeStamp >= delay
+      ) {        
+        let item = queue.current.shift()
+        if (item) {
+          setDelayedValue(item.value)
+        }
+      }
+    }, 1)
+
+    return () => clearInterval(interval)
+  }, [value, delay])
+
+  return delayedValue;
 }
 
 export default function Canvas() {

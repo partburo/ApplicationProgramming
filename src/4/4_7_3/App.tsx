@@ -5,7 +5,7 @@
   Относитесь к chat.ts как к внешней сторонней библиотеке: вы можете обратиться к ней, чтобы проверить ее API, но не редактируйте ее.
 */
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import ChatRoom from './ChatRoom.tsx';
 
 export default function App() {
@@ -13,10 +13,10 @@ export default function App() {
   const [roomId, setRoomId] = useState('general');
   const [serverUrl, setServerUrl] = useState('https://localhost:1234');
 
-  const options = {
+  const options = useMemo(() => ({
     serverUrl: serverUrl,
     roomId: roomId
-  };
+  }), [serverUrl, roomId]);
 
   return (
     <div className={isDark ? 'dark' : 'light'}>
